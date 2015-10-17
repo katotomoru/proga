@@ -1,0 +1,32 @@
+import sqlite3, re
+
+f = open('xhwiktionary-20151002-pages-articles-multistream.xml', 'r', encoding='utf-8')
+titles = []
+wu = []
+a = re.compile('<title>(.*?)</title>')
+b = re.compile('<text xml:space="preserve">(.*)</text>')
+
+for i in f.read():
+    articles = re.findall(a, i)
+    for ii in articles:
+        titles.append(ii)
+print (titles)
+
+for t in f.read():
+    words = re.findall(b , t)
+    for tt in words:
+        wu.append(len(words))
+print (wu)
+
+connection = sqlite3.connect('xhwikitionary.bd')
+connection.execute('CREATE TABLE t')(title, wu)
+
+for i in range(titles), range(len(wu)):
+    connection.execute('INSERT INTO t1 values (?, ?)', i)
+    
+connection.commit()
+connection.close()
+
+print ('check')
+
+connection.execute('SELECT * from t1 order by title')
